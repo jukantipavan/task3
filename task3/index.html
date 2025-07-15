@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Advanced Styling & JavaScript</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f2f2f2;
+      color: #333;
+    }
+
+    header {
+      background: #4CAF50;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      margin-top: 40px;
+      color: #4CAF50;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        font-size: 16px;
+      }
+      .container {
+        padding: 15px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 20px;
+      }
+      button {
+        width: 100%;
+      }
+    }
+
+    button {
+      background: #4CAF50;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #45a049;
+    }
+
+    .quiz-question {
+      margin-bottom: 20px;
+    }
+
+    .joke {
+      margin-top: 20px;
+      background: #eee;
+      padding: 15px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Advanced Styling & JavaScript</h1>
+  </header>
+
+  <div class="container">
+
+    <section>
+      <h2>Responsive Design</h2>
+      <p>This section adjusts layout and font sizes for mobile, tablet, and desktop using media queries.</p>
+      <p>Resize the browser window to see responsive changes!</p>
+    </section>
+
+    <section>
+      <h2>Interactive Quiz</h2>
+      <div id="quiz">
+        <div class="quiz-question">
+          <p><strong>1. What does HTML stand for?</strong></p>
+          <input type="radio" name="q1" value="a" /> HyperText Markup Language<br/>
+          <input type="radio" name="q1" value="b" /> Hyper Tool Markup Language<br/>
+        </div>
+        <div class="quiz-question">
+          <p><strong>2. What is used to style web pages?</strong></p>
+          <input type="radio" name="q2" value="a" /> HTML<br/>
+          <input type="radio" name="q2" value="b" /> CSS<br/>
+        </div>
+        <div class="quiz-question">
+          <p><strong>3. Which language is used for web page interactivity?</strong></p>
+          <input type="radio" name="q3" value="a" /> Java<br/>
+          <input type="radio" name="q3" value="b" /> JavaScript<br/>
+        </div>
+        <button onclick="submitQuiz()">Submit Quiz</button>
+        <p id="quizResult"></p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Get a Random Joke (API Integration)</h2>
+      <button onclick="getJoke()">Get Joke</button>
+      <div id="jokeContainer" class="joke"></div>
+    </section>
+
+  </div>
+
+  <script>
+    function submitQuiz() {
+      const answers = {
+        q1: "a",
+        q2: "b",
+        q3: "b"
+      };
+
+      let score = 0;
+
+      for (let key in answers) {
+        const selected = document.querySelector(`input[name="${key}"]:checked`);
+        if (selected && selected.value === answers[key]) {
+          score++;
+        }
+      }
+
+      document.getElementById("quizResult").textContent = `You scored ${score}/3!`;
+    }
+
+    function getJoke() {
+      fetch('https://icanhazdadjoke.com/', {
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('jokeContainer').textContent = data.joke;
+      })
+      .catch(error => {
+        document.getElementById('jokeContainer').textContent = 'Failed to fetch joke. Try again.';
+      });
+    }
+  </script>
+
+</body>
+</html>
